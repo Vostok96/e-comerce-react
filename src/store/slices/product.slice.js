@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setIsLoading } from "./isLoading.slice";
+import getConfig from "../../utils/getConfig";
 
 export const productSlice = createSlice({
     name: 'product',
@@ -16,10 +17,19 @@ export const getProductThunk = () => dispatch => {
     dispatch (setIsLoading(true))
 
     axios
-        .get('https://e-commerce-api-v2.academlo.tech/api/v1/products')
+        .get('https://e-commerce-api-v2.academlo.tech/api/v1/products', getConfig())
         .then( resp => dispatch(setProduct(resp.data)))
         .catch(error => console.error(error))
         .finally(()=> dispatch (setIsLoading(false)))
+}
+
+export const createProductThunk = data => dispatch => {
+
+    axios
+        .post('https://e-commerce-api-v2.academlo.tech/api/v1/cart', data, getConfig())
+        .then((resp) => console.log(resp.data))
+        .catch(error => console.error(error))
+
 }
 
 export const filterCategoriresThunk = id => dispatch => {
