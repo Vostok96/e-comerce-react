@@ -27,7 +27,15 @@ export const createProductThunk = data => dispatch => {
 
     axios
         .post('https://e-commerce-api-v2.academlo.tech/api/v1/cart', data, getConfig())
-        .then((resp) => console.log(resp.data))
+        .then(() => dispatch(getProductThunk()))
+        .catch(error => console.error(error))
+
+}
+
+export const cartCheckoutThunk = () => dispatch => {
+    axios
+        .post('https://e-commerce-api-v2.academlo.tech/api/v1/purchases', {}, getConfig())
+        .then(()=> dispatch(getProductThunk()))
         .catch(error => console.error(error))
 
 }

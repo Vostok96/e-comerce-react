@@ -3,11 +3,18 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getPurchasesThunk } from '../store/slices/purchases.slice'
+import { getProductThunk, cartCheckoutThunk } from '../store/slices/product.slice';
 
 
 const PurchasesSidebar = ({show, handleClose}) => {
 
     const dispatch = useDispatch()
+
+    const token = localStorage.getItem('token')
+
+    useEffect (()=>{
+        if(token) dispatch(getProductThunk())
+    },[token]);
     
 
 
@@ -15,7 +22,7 @@ const PurchasesSidebar = ({show, handleClose}) => {
 
     },[])
     const product = useSelector (state => state.product)
-        console.log(product)
+        
     return (
         <Offcanvas show={show} onHide={handleClose} placement={'end'}>
             <Offcanvas.Header closeButton>
@@ -25,13 +32,15 @@ const PurchasesSidebar = ({show, handleClose}) => {
             <ul>
                 {
                     product?.map(item=> (
-                        <li key={item.id}>
-                            Producto favorito
+                        <li key={item.id} style={{border: '1px solid black', marginBottom:'1rem'}}>
+                            <h5>{item.title}</h5>
+                            <img style={{width: 90, objectFit: 'contain'}} src={item.images?.[0]?.url} alt="" />
                         </li>
 
                     ))
                 }
             </ul>
+            <Button onClick={()=> dispatch(cartCheckoutThunk())}>Checkout</Button>
             </Offcanvas.Body>
         </Offcanvas>
     );

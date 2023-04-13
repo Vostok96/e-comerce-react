@@ -26,8 +26,20 @@ const Login = () => {
             })
             
             }
-    
+    const token = localStorage.getItem('token')
+    const logout = () => {
+        localStorage.clear()
+        navigate('/login')
+    }
     return (
+          <>
+        {
+            token 
+            ?
+            <div style={{maxWidth500, margin: '1rem auto', border: '1px solid black', padding: '1rem'}}>
+                <Button onClick={logout}>Cerrar sesión</Button>
+            </div>
+            :
         <Form 
         style={{
             maxWidth: 500,
@@ -62,6 +74,8 @@ const Login = () => {
                     Iniciar sesión
                 </Button>
             </Form>
+            }
+         </>
     );
 };
 

@@ -1,17 +1,28 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import PurchasesSidebar from './PurchasesSidebar';
 
 
 const NavBar = () => {
     const [show, setShow] = useState(false)
+    const navigate = useNavigate()
     const handleClose = () => {
         setShow(false)
     }
     
+    const sideBarAction = () => {
+        const token = localStorage.getItem('token')
+
+        if(token){
+            setShow(true)
+        }else{
+
+        }
+    }
+
     return (
         <>
         <Navbar bg="dark" variant="dark">
@@ -21,7 +32,7 @@ const NavBar = () => {
                 <Nav.Link as={Link} to= '/login'>Login</Nav.Link>
                 <Nav.Link as={Link} to='/purchases'>Purchases</Nav.Link>
                 <Nav.Link
-                onClick={()=> setShow(true)}
+                onClick={()=> sideBarAction()}
                 >Purchases (sidebar)</Nav.Link>
             </Nav>
             </Container>
